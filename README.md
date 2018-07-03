@@ -10,9 +10,9 @@ The 4 red buttons on the instrument controller adjust the pitch based off the ba
 
 ### Hardware Implementation
 The enclosure for the tube was laser cut to fit the test tube, photocell, and LED, in a way that made it easy to interchange the test tube. The controller enclosure fit the circuitry for the 5 control buttons and potentiometer. 
-![hardware enclosure 1](images/proto1.jpg)
-![hardware enclosure 1](images/proto2.jpg)
-![hardware enclosure 1](images/proto3.jpg)
+![hardware enclosure 1](images/proto1.JPG)
+![hardware enclosure 1](images/proto2.JPG)
+![hardware enclosure 1](images/proto3.JPG)
 
 Below is a very crude circuit diagram of our design.
 ![circuit image](images/circuit.png)
