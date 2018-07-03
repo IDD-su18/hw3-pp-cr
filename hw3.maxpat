@@ -45,7 +45,6 @@
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 812.0, 873.0, 50.0, 22.0 ],
-					"presentation_rect" : [ 812.0, 873.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 

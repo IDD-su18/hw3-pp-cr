@@ -143,9 +143,9 @@ int findLetter(int chordValue) {
       return 'f';
     case 9:
       return 'g';
-    case 16:
+    case 6:
       return 'h';
-    case 10:
+    case 12:
       return 'i';
     case 15:
       ledON = !ledON;
