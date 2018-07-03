@@ -13,14 +13,14 @@
 
 */
 
-#define NUM_INPUTS 4
+#define NUM_INPUTS 5
 #define DEBOUNCE_TIME 5
 int x = 0;
 int pinkyButton = 2;
 int chordValue = 0;
 
-boolean buttons[4];     // Pinky is [0] and far thumb is [6]
-boolean latchingButtons[4];
+boolean buttons[5];     // Pinky is [0] and far thumb is [6]
+boolean latchingButtons[5];
 boolean acquiringPresses = LOW;
 boolean calculateKey = LOW;
 boolean ledON;
@@ -31,6 +31,8 @@ void setup() {
   // 115200 is the default Arduino Bluetooth speed
   Serial.begin(115200);
   pinMode(13, OUTPUT);
+  pinMode(8, INPUT_PULLUP);
+  pinMode(6, INPUT_PULLUP);
   pinMode(5, INPUT_PULLUP);
   pinMode(4, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
@@ -51,26 +53,23 @@ void loop() {
     chordValue = 0;
   }
 
-
-
   digitalWrite(7, ledON);
 
   
   if (Serial.available() > 0) {        // Check serial buffer for characters
     if (Serial.read() == 'r') {       // If an 'r' is received then read the pins
-
       for (int pin = 0; pin <= 5; pin++) {    // Read and send analog pins 0-5
         x = analogRead(pin);
-        if (pin==3) {
+        if (pin==5) {
           sendValue(keyValue);
-          keyValue = 0;
+        }
+        else if (pin==1) {
+          sendValue(digitalRead(6));
         }
         else {
           sendValue(x);  
         }
-        
       }
-
       for (int pin = 2; pin <= 13; pin++) { // Read and send digital pins 2-13
         x = digitalRead(pin);
         sendValue(x);
@@ -86,7 +85,6 @@ void sendValue (int x) {             // function to send the pin value followed 
   Serial.print(x);
   Serial.write(32);
 }
-
 
 boolean checkButtonArray() {
   // Update the buttons[] array with each scan. Set the acquiringPresses bit HIGH if any switch is pressed.
@@ -128,23 +126,35 @@ int customPower(int functionBase, int functionExponent) {
 }
 
 
-
-int findLetter(int chordValue) { //hardcode the mapping!
+int findLetter(int chordValue) {
+  //Serial.println(chordValue);
   switch (chordValue) {
     case 1:
-      return 2;
+      return 'a';
     case 2: 
       return 'b';
     case 4:
       return 'c';
     case 8:
       return 'd';
+    case 3:
+      return 'e';
+    case 5:
+      return 'f';
+    case 9:
+      return 'g';
+    case 16:
+      return 'h';
+    case 10:
+      return 'i';
+    case 15:
+      ledON = !ledON;
+      return 'i';
     default:
       return '\0';
       break;
   }
 }
-
 
 void sendKeyPress() {
   for (int i = 0; i < NUM_INPUTS; i++) {
@@ -154,7 +164,5 @@ void sendKeyPress() {
     }
   }
   keyValue = findLetter(chordValue);
-  if (keyValue == 2) {
-    ledON = !ledON;
-  }
+  
 }
