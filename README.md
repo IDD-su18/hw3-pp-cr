@@ -21,4 +21,4 @@ Below is a very crude circuit diagram of our design.
 All of the data from the Arduino was passed into (Max)[https://cycling74.com/products/max/] to generate the audio. The frequency adjusting buttons were registered as chorded key values, and then parsed in Max. To determine what note should be played, the Max patch first takes the reading from the photocell (ported in as an analog reading), converts it to the nearest midi note, then adds a midi number between 1 and 7, depending on which frequency button was pressed. The sustain button is read as a digital input, and is used as a multiplier to let or prevent the note from being played. 
 
 ### Reflection
-tired
+We had to simplify our design a lot as the deadline got closer, so it wasn't as fleshed out as we had hoped. Connecting to Max ended up taking a good amount of time and was not finished, but the enclosures for our project ended up coming out nicely. 
