@@ -14,7 +14,7 @@
 */
 
 #define NUM_INPUTS 4
-#define DEBOUNCE_TIME 20
+#define DEBOUNCE_TIME 5
 int x = 0;
 int pinkyButton = 2;
 int chordValue = 0;
@@ -23,20 +23,18 @@ boolean buttons[4];     // Pinky is [0] and far thumb is [6]
 boolean latchingButtons[4];
 boolean acquiringPresses = LOW;
 boolean calculateKey = LOW;
+boolean ledON;
 
-boolean buttonVals[7];
+int keyValue;
 
 void setup() {
+  // 115200 is the default Arduino Bluetooth speed
   Serial.begin(115200);
   pinMode(13, OUTPUT);
   pinMode(5, INPUT_PULLUP);
   pinMode(4, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
   pinMode(2, INPUT_PULLUP);
-  // 115200 is the default Arduino Bluetooth speed
-  for (int i = 0; i < 7; i++) {
-    buttonVals[i] = 0;
-  }
 }
 
 
@@ -54,29 +52,29 @@ void loop() {
   }
 
 
-  digitalWrite(2, HIGH);
+
+  digitalWrite(7, ledON);
+
+  
   if (Serial.available() > 0) {        // Check serial buffer for characters
     if (Serial.read() == 'r') {       // If an 'r' is received then read the pins
 
       for (int pin = 0; pin <= 5; pin++) {    // Read and send analog pins 0-5
         x = analogRead(pin);
-        sendValue (x);
+        if (pin==3) {
+          sendValue(keyValue);
+          keyValue = 0;
+        }
+        else {
+          sendValue(x);  
+        }
+        
       }
 
       for (int pin = 2; pin <= 13; pin++) { // Read and send digital pins 2-13
         x = digitalRead(pin);
-        //Serial.println(pin);
-        if (pin == 6) {
-          //Serial.println(buttonVals[0]);
-          sendValue(buttonVals[0]);
-        }
-
-        else {
-          sendValue(x);
-        }
+        sendValue(x);
       }
-
-
       Serial.println();                 // Send a carriage returnt to mark end of pin data.
       delay (5);                        // add a delay to prevent crashing/overloading of the serial port
 
@@ -120,17 +118,6 @@ void typingChord() {
   }
 }
 
-void sendKeyPress() {
-  for (int i = 0; i < NUM_INPUTS; i++) {
-    if (latchingButtons[i] == HIGH) {
-      chordValue = chordValue + customPower(2, i);
-
-    }
-  }
-  //Serial.println('a');
-  findLetter(chordValue);
-}
-
 int customPower(int functionBase, int functionExponent) {
   int functionResult = 1;
   for (int i = 0; i < functionExponent; i++) {
@@ -140,22 +127,18 @@ int customPower(int functionBase, int functionExponent) {
   return functionResult;
 }
 
+
+
 int findLetter(int chordValue) { //hardcode the mapping!
-  //Serial.print("chord value = ");
-  //Serial.println(chordValue);
   switch (chordValue) {
     case 1:
-      buttonVals[0] = HIGH;
-      return 'a';
-    case 2:
-      buttonVals[1] = HIGH;
-      return 'a';
+      return 2;
+    case 2: 
+      return 'b';
     case 4:
-      buttonVals[2] = HIGH;
-      return 'a';
+      return 'c';
     case 8:
-      buttonVals[3] =  HIGH;
-      return 'a';
+      return 'd';
     default:
       return '\0';
       break;
@@ -163,4 +146,15 @@ int findLetter(int chordValue) { //hardcode the mapping!
 }
 
 
+void sendKeyPress() {
+  for (int i = 0; i < NUM_INPUTS; i++) {
+    if (latchingButtons[i] == HIGH) {
+      chordValue = chordValue + customPower(2, i);
 
+    }
+  }
+  keyValue = findLetter(chordValue);
+  if (keyValue == 2) {
+    ledON = !ledON;
+  }
+}
