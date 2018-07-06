@@ -30,6 +30,7 @@ All of the data from the Arduino was passed into (Max)[https://cycling74.com/pro
 
 #### Demo videos
 early prototype: https://www.youtube.com/watch?v=ZvdMpu-PLwA
+
 submitted prototype: https://www.youtube.com/watch?v=QQv6kS5vt_Q
 
 ### Reflection
