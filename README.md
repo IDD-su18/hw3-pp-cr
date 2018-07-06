@@ -26,7 +26,11 @@ All of the data from the Arduino was passed into (Max)[https://cycling74.com/pro
 ![controller enclosure](images/final_controller_enclosure.JPG)
 
 #### Final prototype
-![demoed prototype](images/final_image.JPG)
+![demoed prototype](images/final_image.png)
+
+#### Demo videos
+early prototype: https://www.youtube.com/watch?v=ZvdMpu-PLwA
+submitted prototype: https://www.youtube.com/watch?v=QQv6kS5vt_Q
 
 ### Reflection
 We had to simplify our design a lot as the deadline got closer, so it wasn't as fleshed out as we had hoped. Connecting to Max ended up taking a good amount of time and was not finished, but the enclosures for our project ended up coming out nicely. 
